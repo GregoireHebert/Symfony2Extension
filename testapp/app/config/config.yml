@@ -14,3 +14,7 @@ parameters:
     collection_param:
         - 'Param 1'
         - 'Param 2'
+
+services:
+    Behat\Sf2DemoBundle\Service\FooService:
+        class: Behat\Sf2DemoBundle\Service\FooService

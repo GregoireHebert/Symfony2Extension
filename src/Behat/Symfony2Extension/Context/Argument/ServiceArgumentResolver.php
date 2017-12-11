@@ -13,6 +13,7 @@ namespace Behat\Symfony2Extension\Context\Argument;
 
 use Behat\Behat\Context\Argument\ArgumentResolver;
 use ReflectionClass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -49,7 +50,24 @@ final class ServiceArgumentResolver implements ArgumentResolver
             $newArguments[$key] = $this->resolveArgument($argument);
         }
 
+        if (!$classReflection->getConstructor()) {
+            return $newArguments;
+        }
+
+        foreach ($classReflection->getConstructor()->getParameters() as $parameter) {
+            if (in_array($parameter->getName(), $newArguments)) {
+                continue;
+            }
+            // Find service by classname: $parameter->getClass()->getName()
+            $newArguments[$parameter->getName()] = $this->kernel->getContainer()->get('session');
+        }
+
         return $newArguments;
+    }
+
+    private function foo(ContainerBuilder $containerBuilder)
+    {
+        $containerBuilder->registerForAutoconfiguration();
     }
 
     /**

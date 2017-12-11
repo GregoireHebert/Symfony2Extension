@@ -14,7 +14,14 @@ default:
             type: symfony_bundle
             bundle: 'BehatSf2DemoBundle'
             filters:
-                tags: '~@web'
+                tags: '~@web&&~@autowiring'
+        autowiring:
+            type: symfony_bundle
+            bundle: 'BehatSf2DemoBundle'
+            filters:
+                tags: '@autowiring'
+            contexts:
+                - Behat\Sf2DemoBundle\Features\Context\AutowiringContext: ~
         web:
             type: symfony_bundle
             contexts:

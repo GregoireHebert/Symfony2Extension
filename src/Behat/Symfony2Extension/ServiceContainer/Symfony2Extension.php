@@ -125,7 +125,7 @@ class Symfony2Extension implements ExtensionInterface
                 require_once($bootstrap);
             } elseif (file_exists($bootstrapPath)) {
                 require_once($bootstrapPath);
-            } else {
+            } elseif ($bootstrapPath !== 'app/autoload.php') {
                 throw new ProcessingException(
                     'Could not load bootstrap file. Please check your configuration at "kernel.bootstrap"'
                 );
